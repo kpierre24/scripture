@@ -17,7 +17,11 @@ export const bibleService = {
   async getBibles() {
     try {
       const response = await api.get('/bibles')
-      return response.data.data
+      // Filter only English translations
+      return response.data.data.filter(bible => 
+        bible.language.id === 'eng' || 
+        bible.language.name.toLowerCase().includes('english')
+      )
     } catch (error) {
       console.error('Error fetching bibles:', error)
       throw error
@@ -123,6 +127,32 @@ export const bibleService = {
       }
     } catch (error) {
       console.error('Error getting random verse:', error)
+      throw error
+    }
+  },
+
+  async getCrossReferences(bibleId, verseId) {
+    try {
+      // This endpoint might vary based on your Bible API
+      const response = await api.get(`/bibles/${bibleId}/verses/${verseId}/references`)
+      return response.data.data
+    } catch (error) {
+      console.error('Error fetching cross references:', error)
+      throw error
+    }
+  },
+
+  async getVerse(bibleId, bookId, chapter, verse) {
+    try {
+      const verseId = `${bookId}.${chapter}.${verse}`
+      const response = await api.get(`/bibles/${bibleId}/verses/${verseId}`)
+      return {
+        id: response.data.data.id,
+        reference: `${response.data.data.reference}`,
+        text: response.data.data.content
+      }
+    } catch (error) {
+      console.error('Error fetching verse:', error)
       throw error
     }
   }

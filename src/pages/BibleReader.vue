@@ -34,9 +34,9 @@
       </v-col>
     </v-row>
 
-    <!-- Scripture Content -->
+    <!-- Scripture Content and Cross References -->
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" md="8">
         <v-card>
           <v-card-title class="text-h5 d-flex justify-space-between">
             {{ currentReference }}
@@ -73,6 +73,15 @@
           </v-card-text>
         </v-card>
       </v-col>
+
+      <v-col cols="12" md="4">
+        <cross-references
+          :verse-reference="currentReference"
+          :selected-bible="selectedBible"
+          :verse-id="currentVerseId"
+          @navigate-to-reference="handleReferenceNavigation"
+        />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -80,9 +89,13 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { bibleService } from '@/services/bibleService'
+import CrossReferences from '@/components/CrossReferences.vue'
 
 export default {
   name: 'BibleReader',
+  components: {
+    CrossReferences
+  },
   setup() {
     const selectedBible = ref(null)
     const selectedBook = ref(null)
@@ -108,6 +121,11 @@ export default {
       if (!selectedBook.value) return false
       const book = books.value.find(b => b.id === selectedBook.value)
       return selectedChapter.value < book?.chapters
+    })
+
+    const currentVerseId = computed(() => {
+      if (!selectedBook.value || !selectedChapter.value) return null
+      return `${selectedBook.value}.${selectedChapter.value}`
     })
 
     const loadBibles = async () => {
@@ -199,6 +217,17 @@ export default {
       }
     }
 
+    const handleReferenceNavigation = (reference) => {
+      // Parse the reference and navigate to it
+      const [book, chapter] = reference.reference.split(' ')
+      const bookData = books.value.find(b => b.name === book)
+      if (bookData) {
+        selectedBook.value = bookData.id
+        selectedChapter.value = parseInt(chapter)
+        loadVerses()
+      }
+    }
+
     onMounted(async () => {
       await loadBibles()
     })
@@ -220,7 +249,9 @@ export default {
       loadChapters,
       loadVerses,
       previousChapter,
-      nextChapter
+      nextChapter,
+      currentVerseId,
+      handleReferenceNavigation
     }
   }
 }

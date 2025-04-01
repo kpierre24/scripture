@@ -12,10 +12,20 @@
         </v-col>
       </v-row>
   
-      <!-- Daily Scripture Section -->
+      <!-- Daily Scripture and Study Tools Row -->
       <v-row class="mb-8">
-        <v-col cols="12" md="10" lg="8" class="mx-auto">
+        <v-col cols="12" md="6">
           <daily-scripture />
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-row>
+            <v-col cols="12">
+              <study-timer />
+            </v-col>
+            <v-col cols="12">
+              <reading-progress />
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
   
@@ -184,7 +194,7 @@
   
         <v-col cols="12" sm="6" md="4" lg="3">
           <v-card
-            to="/profile"
+            to="/verse-memorization"
             class="nav-card"
             elevation="2"
             height="200"
@@ -195,11 +205,34 @@
                 color="primary"
                 size="48"
               >
-                mdi-account
+                mdi-brain
               </v-icon>
-              <v-card-title class="text-h6">Profile</v-card-title>
+              <v-card-title class="text-h6">Verse Memorization</v-card-title>
               <v-card-subtitle>
-                Manage your account and preferences
+                Memorize and practice Bible verses
+              </v-card-subtitle>
+            </v-card-item>
+          </v-card>
+        </v-col>
+  
+        <v-col cols="12" sm="6" md="4" lg="3">
+          <v-card
+            to="/audio-bible"
+            class="nav-card"
+            elevation="2"
+            height="200"
+          >
+            <v-card-item>
+              <v-icon
+                class="mb-4"
+                color="primary"
+                size="48"
+              >
+                mdi-headphones
+              </v-icon>
+              <v-card-title class="text-h6">Audio Bible</v-card-title>
+              <v-card-subtitle>
+                Listen to the Bible being read
               </v-card-subtitle>
             </v-card-item>
           </v-card>
@@ -211,11 +244,15 @@
   <script>
   import { defineComponent } from 'vue'
   import DailyScripture from '@/components/DailyScripture.vue'
+  import StudyTimer from '@/components/StudyTimer.vue'
+  import ReadingProgress from '@/components/ReadingProgress.vue'
   
   export default defineComponent({
     name: 'Home',
     components: {
-      DailyScripture
+      DailyScripture,
+      StudyTimer,
+      ReadingProgress
     }
   })
   </script>

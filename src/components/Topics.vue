@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { bibleService } from '@/services/bibleService'
 
 export default {
@@ -280,6 +280,7 @@ export default {
       if (!selectedTopic.value || !selectedVerse.value) return
 
       try {
+        const book = books.value.find(b => b.id === selectedBook.value)
         const verse = await bibleService.getVerse(
           selectedBible.value,
           selectedBook.value,
@@ -289,7 +290,7 @@ export default {
 
         const scripture = {
           id: Date.now(),
-          reference: `${selectedBook.value} ${selectedChapter.value}:${selectedVerse.value}`,
+          reference: `${book.name} ${selectedChapter.value}:${selectedVerse.value}`,
           text: verse.text
         }
 
@@ -300,6 +301,8 @@ export default {
         }
 
         showAddScriptureDialog.value = false
+        // Reset selection
+        selectedVerse.value = null
       } catch (error) {
         console.error('Failed to add scripture:', error)
       }
@@ -314,8 +317,59 @@ export default {
       }
     }
 
+    // Add these methods
+    const loadBibles = async () => {
+      try {
+        const bibles = await bibleService.getBibles()
+        availableBibles.value = bibles
+        if (bibles.length > 0) {
+          selectedBible.value = bibles[0].id
+          await loadBooks()
+        }
+      } catch (error) {
+        console.error('Failed to load bibles:', error)
+      }
+    }
+
+    const loadBooks = async () => {
+      if (!selectedBible.value) return
+      try {
+        const booksList = await bibleService.getBooks(selectedBible.value)
+        books.value = booksList
+      } catch (error) {
+        console.error('Failed to load books:', error)
+      }
+    }
+
+    const loadChapters = async () => {
+      if (!selectedBook.value || !selectedBible.value) return
+      try {
+        const chaptersData = await bibleService.getChapters(selectedBible.value, selectedBook.value)
+        chapters.value = Array.from({ length: chaptersData.length }, (_, i) => i + 1)
+        selectedChapter.value = 1
+      } catch (error) {
+        console.error('Failed to load chapters:', error)
+      }
+    }
+
+    const loadVerses = async () => {
+      if (!selectedBook.value || !selectedChapter.value || !selectedBible.value) return
+      try {
+        const chapterId = `${selectedBook.value}.${selectedChapter.value}`
+        const chapterData = await bibleService.getChapter(selectedBible.value, chapterId)
+        // Extract verse numbers from the chapter content
+        verses.value = Array.from({ length: 30 }, (_, i) => i + 1) // Temporary solution, adjust based on your API
+      } catch (error) {
+        console.error('Failed to load verses:', error)
+      }
+    }
+
     // Load initial data
     loadTopics()
+    onMounted(() => {
+      loadTopics()
+      loadBibles()
+    })
 
     return {
       topics,
@@ -337,7 +391,11 @@ export default {
       saveTopic,
       deleteTopic,
       addScripture,
-      removeScripture
+      removeScripture,
+      loadChapters,
+      loadVerses,
+      loadBooks,
+      loadBibles
     }
   }
 }

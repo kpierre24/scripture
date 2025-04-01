@@ -117,6 +117,12 @@
         <v-list-item to="/profile" prepend-icon="mdi-account">
           <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/verse-memorization" prepend-icon="mdi-brain">
+          <v-list-item-title>Verse Memorization</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/audio-bible" prepend-icon="mdi-headphones">
+          <v-list-item-title>Audio Bible</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   </v-app-bar>
