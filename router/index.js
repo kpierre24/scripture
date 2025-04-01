@@ -1,27 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../pages/Home.vue';
-import DailyScripture from '../pages/DailyScripture.vue';
-import Search from '../pages/Search.vue';
-import Favorites from '../pages/Favorites.vue';
-import Topics from '../pages/Topics.vue';
-import TopicDetails from '../pages/TopicDetails.vue';
-import ChapterView from '../pages/ChapterView.vue';
-import About from '../pages/About.vue';
-import Profile from '../pages/Profile.vue'; // Create this file
-import Settings from '../pages/Settings.vue'; // Create this file
+import Home from '@/components/Home.vue';
+import BibleReader from '@/pages/BibleReader.vue';
+import ReadingPlan from '@/components/ReadingPlan.vue';
+import PrayerJournal from '@/components/PrayerJournal.vue';
+import SearchScripture from '@/components/SearchScripture.vue';
+import StudyNotes from '@/components/StudyNotes.vue';
+import DailyScripture from '@/components/DailyScripture.vue';
+import Topics from '@/components/Topics.vue';
+import UserProfile from '@/components/UserProfile.vue';
 
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/daily-scripture', component: DailyScripture },
-  { path: '/search', component: Search },
-  { path: '/favorites', component: Favorites },
-  { path: '/topics', component: Topics },
-  { path: '/topics/:topic', component: TopicDetails, props: true },
-  { path: '/chapter/:book/:chapter', component: ChapterView, props: true },
-  { path: '/about', component: About },
-  { path: '/profile', component: Profile },
-  { path: '/settings', component: Settings },
+  { path: '/read', name: 'BibleReader', component: BibleReader },
+  { path: '/reading-plans', name: 'ReadingPlan', component: ReadingPlan },
+  { path: '/prayer-journal', name: 'PrayerJournal', component: PrayerJournal },
+  { path: '/search', name: 'SearchScripture', component: SearchScripture },
+  { path: '/notes', name: 'StudyNotes', component: StudyNotes },
+  { path: '/daily', name: 'DailyScripture', component: DailyScripture },
+  { path: '/topics', name: 'Topics', component: Topics },
+  { path: '/profile', name: 'UserProfile', component: UserProfile },
 ];
 
 const router = createRouter({

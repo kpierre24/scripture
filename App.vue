@@ -1,36 +1,31 @@
 <template>
-  <v-app :class="themeClass">
-    <NavBar @toggleTheme="toggleTheme" />
+  <v-app>
+    <app-header />
+    
     <v-main>
-      <v-container fluid class="pa-4">
-        <router-view></router-view>
-      </v-container>
+      <router-view></router-view>
     </v-main>
-    <Footer />
+
+    <app-footer />
   </v-app>
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
-import Footer from "./components/Footer.vue";
-import { useTheme } from '@/composables/useTheme';
+import { defineComponent } from 'vue'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
-export default {
-  name: "App",
+export default defineComponent({
+  name: 'App',
   components: {
-    NavBar,
-    Footer,
-  },
-  setup() {
-    const { themeClass, toggleTheme } = useTheme();
-    return { themeClass, toggleTheme };
-  },
-};
+    AppHeader,
+    AppFooter
+  }
+})
 </script>
 
 <style>
-body.dark-theme {
-  background-color: #333;
-  color: #fff;
+.v-main {
+  min-height: calc(100vh - 128px); /* Adjust based on your header/footer height */
 }
 </style>
