@@ -86,19 +86,16 @@ export default {
     const crossReferences = ref([])
 
     const loadCrossReferences = async () => {
-      if (!props.verseId || !props.selectedBible) return
-
       try {
         isLoading.value = true
-        error.value = null
         const refs = await bibleService.getCrossReferences(
           props.selectedBible,
           props.verseId
         )
-        crossReferences.value = refs
+        crossReferences.value = refs.data || []
       } catch (err) {
-        error.value = err.message
         console.error('Failed to load cross references:', err)
+        error.value = 'Unable to load cross references. Please try again later.'
       } finally {
         isLoading.value = false
       }
@@ -140,4 +137,4 @@ export default {
 .v-list-item:hover {
   background-color: rgba(var(--v-theme-primary), 0.1);
 }
-</style> 
+</style>

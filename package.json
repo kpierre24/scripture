@@ -11,6 +11,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
     "@formkit/vue": "^1.6.9",
     "@vee-validate/i18n": "^4.15.0",
     "@vee-validate/rules": "^4.15.0",

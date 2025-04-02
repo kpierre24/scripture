@@ -110,9 +110,6 @@
         <v-list-item to="/notes" prepend-icon="mdi-pencil-box">
           <v-list-item-title>Study Notes</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/favorites" prepend-icon="mdi-heart">
-          <v-list-item-title>Favorites</v-list-item-title>
-        </v-list-item>
         <v-divider></v-divider>
         <v-list-item to="/profile" prepend-icon="mdi-account">
           <v-list-item-title>Profile</v-list-item-title>

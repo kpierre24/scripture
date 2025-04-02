@@ -62,7 +62,9 @@
               class="ma-4"
             />
             
-            <div v-else-if="currentContent" class="scripture-content" v-html="currentContent"></div>
+            <div v-else-if="currentContent" class="bible-content">
+              <div class="verse-container" v-html="currentContent"></div>
+            </div>
 
             <v-alert
               v-if="error"
@@ -258,19 +260,46 @@ export default {
 </script>
 
 <style scoped>
-.scripture-content {
-  font-size: 1.1rem;
-  line-height: 1.8;
+.bible-content {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 1rem;
 }
 
-.scripture-content :deep(p) {
-  margin-bottom: 1rem;
+.verse-container {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: left;
 }
 
-.scripture-content :deep(.verse-number) {
-  font-weight: bold;
-  margin-right: 0.5rem;
-  color: var(--v-primary-base);
+.verse-paragraph {
+  margin-bottom: 1.5rem;
+  text-indent: 2rem;
+  position: relative;
 }
-</style> 
+
+.verse-number {
+  font-weight: bold;
+  color: var(--v-primary-base);
+  font-size: 0.8em;
+  margin-right: 0.3rem;
+  user-select: none;
+  vertical-align: super;
+}
+
+@media (max-width: 600px) {
+  .bible-content {
+    padding: 0.5rem;
+  }
+  
+  .verse-container {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .verse-paragraph {
+    margin-bottom: 1rem;
+    text-indent: 1.5rem;
+  }
+}
+</style>
